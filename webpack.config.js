@@ -14,17 +14,17 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.js?/,
+                test: /\.m?jsx?$/,
                 include: SRC_DIR,
                 exclude: "/node_modules/",
-                use: [{
+                use: {
                     loader: 'babel-loader',
                     options: {
                         cacheDirectory: true,
                         babelrc: false,
-                        presets: ["react", "es2015", "stage-2"]
+                        presets: ["@babel/preset-react", "@babel/preset-env"]
                     }
-                }],
+                },
             }
         ]
     }
