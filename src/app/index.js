@@ -2,25 +2,64 @@ import React from "react";
 import {render} from "react-dom";
 
 import {Header} from "./components/Header"
-import {HomeContent} from "./components/HomeContent";
+import {DataContent} from "./components/DataContent";
 
 class Application extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            homeLinkText: "Home",
+            age: 1.4,
+            name: "Max",
+            hobbies: ["sleep", "eat", "cartoons"]
+        };
+    }
+
+    onUpdateHomeLink(newLinkText) {
+        this.setState({
+            homeLinkText: newLinkText
+        });
+        console.info("Changed: " + newLinkText)
+    }
+
+    onGreet() {
+        console.log("Hello from 'Application' - a ReactJS Component!")
+    }
+
     render() {
         return (
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row">
                     <div className="col-sx-10 col-xs-offset-1">
-                        <Header/>
+                        <Header linkText={this.state.homeLinkText}/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-sx-10 col-xs-offset-1">
-                        <HomeContent/>
+                        <p>{this.state.homeLinkText}</p>
                     </div>
+                </div>
+                <div className="col-sx-10 col-xs-offset-1">
+                    <DataContent
+                        name={this.state.name}
+                        age={this.state.age}
+                        hobbies={this.state.hobbies}
+                        greet={this.onGreet}
+                        homeLinkText={this.state.homeLinkText}
+                        updateHomeLink={this.onUpdateHomeLink.bind(this)} >
+                        <p>Ac tortor dignissim convallis aenean et tortor at risus viverra.
+                            Consectetur adipiscing elit duis tristique sollicitudin nibh.
+                            Ullamcorper a lacus vestibulum sed arcu non odio euismod.
+                        </p>
+                    </DataContent>
                 </div>
             </div>
         );
     }
 }
 
-render(<Application/>, window.document.getElementById("app"))
+render(
+    <Application/>,
+    window.document.getElementById("app")
+);
