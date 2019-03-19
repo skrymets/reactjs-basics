@@ -12,8 +12,10 @@ class Application extends React.Component {
             homeLinkText: "Home",
             age: 1.4,
             name: "Max",
-            hobbies: ["sleep", "eat", "cartoons"]
-        };
+            hobbies: ["sleep", "eat", "cartoons"],
+            mountContentComponent: false,
+    }
+        ;
     }
 
     onUpdateHomeLink(newLinkText) {
@@ -27,7 +29,31 @@ class Application extends React.Component {
         console.log("Hello from 'Application' - a ReactJS Component!")
     }
 
+    onChangeMountContentComponent() {
+        this.setState({
+            mountContentComponent: !this.state.mountContentComponent
+        })
+    }
+
     render() {
+        let contentComponent = "";
+        if (this.state.mountContentComponent) {
+            contentComponent = (
+                <DataContent
+                    name={this.state.name}
+                    age={this.state.age}
+                    hobbies={this.state.hobbies}
+                    greet={this.onGreet}
+                    homeLinkText={this.state.homeLinkText}
+                    updateHomeLink={this.onUpdateHomeLink.bind(this)}>
+                    <p>Ac tortor dignissim convallis aenean et tortor at risus viverra.
+                        Consectetur adipiscing elit duis tristique sollicitudin nibh.
+                        Ullamcorper a lacus vestibulum sed arcu non odio euismod.
+                    </p>
+                </DataContent>
+            );
+        }
+
         return (
             <div className="container">
                 <div className="row">
@@ -40,19 +66,15 @@ class Application extends React.Component {
                         <p>{this.state.homeLinkText}</p>
                     </div>
                 </div>
-                <div className="col-sx-10 col-xs-offset-1">
-                    <DataContent
-                        name={this.state.name}
-                        age={this.state.age}
-                        hobbies={this.state.hobbies}
-                        greet={this.onGreet}
-                        homeLinkText={this.state.homeLinkText}
-                        updateHomeLink={this.onUpdateHomeLink.bind(this)} >
-                        <p>Ac tortor dignissim convallis aenean et tortor at risus viverra.
-                            Consectetur adipiscing elit duis tristique sollicitudin nibh.
-                            Ullamcorper a lacus vestibulum sed arcu non odio euismod.
-                        </p>
-                    </DataContent>
+                <div className="row">
+                    <div className="col-sx-10 col-xs-offset-1">
+                        {contentComponent}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sx-10 col-xs-offset-1">
+                        <button onClick={this.onChangeMountContentComponent.bind(this)} className="btn btn-primary">(Un)Mount Content Component</button>
+                    </div>
                 </div>
             </div>
         );
